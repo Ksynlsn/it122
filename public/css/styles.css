@@ -1,0 +1,173 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /*border: solid 0.5px black;*/
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+    background-color: #dee9e854;
+}
+
+#wrapper {
+    max-width: 1500px;
+    min-width: 520px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+.flex-container {
+    display: flex;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+li {
+    font-family: 'Dongle', sans-serif;
+    list-style-type: none;
+    font-size: 2rem;
+}
+
+p {
+    font-family: 'Dongle', sans-serif;
+    font-size: 2.2rem;
+}
+
+/* Nav */
+header {
+    padding: 2.2rem;
+    background-color: #6CABA6;
+}
+
+nav a {
+    text-decoration: none;
+    font-family: 'Palanquin Dark', sans-serif;
+    color: #102D45;
+    padding-left: 1.6rem;
+    font-size: 2.9rem;
+}
+
+nav ul {
+    display: flex;
+    justify-content: left;
+    list-style-type: none;
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.8rem;
+    color: #76AFDE;
+    padding: 1rem;
+}
+
+h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    color:#6CABA6;
+}
+
+/* Deatils Page*/
+.flex-container.details {
+    justify-content: space-evenly;
+    border: 1px solid black;
+    padding: 3rem;
+}
+
+.featured-image {
+    display: inline-block;
+    max-width: 45%;
+}
+
+ul.details {
+    display: inline-block;
+}
+
+.details li {
+    padding-bottom: 1rem;
+}
+
+#catImage {
+    height: auto;
+    border-radius: 24px;
+    border: 3.5px solid #6CABA6;
+}
+
+#info p {
+    margin-top: 2%;
+}
+
+/* Home Page */
+.flex-container.home {
+    justify-content: center;
+}
+
+.flex-container.home ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.home ul li {
+    padding: 2.6rem;
+    color: #102D45;
+}
+
+/* Footer */
+footer {
+    width: 100%;
+    min-height: 300px;
+    background-color: #102D45;
+    
+}
+
+#footer-top {
+    background: #B5A4A0;
+    height: 50px;
+    margin-bottom: 200px;
+}
+
+footer p {
+    color: #B5A4A0;
+}
+
+@media (max-width: 805px) {
+    .flex-container.details {
+      flex-direction: row-reverse;
+      padding: 1rem;
+    }
+
+    .details ul {
+        text-align: right;
+    }
+
+    .details li {
+        padding-bottom: 1rem;
+        font-size: 1.7rem;
+    }
+
+    .featured-image {
+        width: auto;
+        min-width: 300px;
+    }
+
+    #info p {
+        font-size: 1.8rem;
+    }
+
+    nav a {
+        font-size: 2.2rem;
+    }
+
+    nav ul {
+        justify-content: space-evenly;
+    }
+  }

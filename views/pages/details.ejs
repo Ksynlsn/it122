@@ -1,0 +1,41 @@
+<%- include('../partials/header'); %>
+<main>
+ <h1 class="center">Thank you for asking about <%= name.replace(/^[a-z]/, (match) => match.toUpperCase()) %>&nbsp;!</h1>
+<div class="flex-container details">
+
+ <% if (result) { %>
+  <ul class="details">
+    <li>Name: <%= name.replace(/^[a-z]/, (match) => match.toUpperCase()) %> </li>
+    <li>Breed: <%= result.breed %> </li>
+    <li>Sex: <%= result.sex %> </li>
+    <li>Temperment: <%= result.temperment %> </li>
+    <li>Age: <%= result.age %> </li>
+    <li>Favorite Toys: <%= result.favToys.join(", ") %> </li>
+    <li>Adoptable: <%= result.isAvailable %> </li>
+  </ul>
+
+  <div class="featured-image details">
+    <img id="catImage" src="<%= imagePath %>">
+
+    <div id="info">
+
+      <% if(result.isAvailable == true ){ %>
+        <p class="center"><%=name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is available for adoption!</p>
+      <% } else{ %>  
+        <p class="center"><%=name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is not available for adoption</p>
+     <% } %>
+    
+    <% } else { %>
+      not found
+    <% } %>
+      </div>
+
+  </div>
+
+</div> <!-- end container-->
+
+</main>
+  <%- include('../partials/footer'); %>
+</body>
+</html>
+

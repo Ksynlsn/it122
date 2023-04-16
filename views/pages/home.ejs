@@ -1,0 +1,27 @@
+<%- include('../partials/header'); %>
+<main>
+  <div class="img-container" id="hero">
+    <img src="/images/cat_hero.jpeg" alt="a slim, white cat playing with string">
+  </div>
+<h1 class="center">Welcome</h1>
+
+<h2 class="center">Meet Our Featured Cats!</h2>
+<div class="flex-container home">
+<div class="ul-wrapper home">
+
+  <ul class="flex-container home">
+   <% cats.forEach(function(cat) { %>
+    <li> <a href="/details/<%= cat.name %>"><%= cat.name.replace(/^[a-z]/, (match) => match.toUpperCase()) %></a> </li>
+  <% }); %>
+  </ul>
+</div>
+</div>
+
+
+
+</main>
+  <%- include('../partials/footer'); %>
+</div> <!-- close wrapper -->
+</body>
+</html>
+

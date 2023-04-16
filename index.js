@@ -1,23 +1,18 @@
-const http = require("http"); 
-http.createServer((req,res) => {
-    var path = req.url.toLowerCase();    
-    switch(path) {
-        case '/':
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('Home Page');
-            break;
-        case '/about':
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('About Page');
-            break;
-        default:
-            res.writeHead(404, {'Content-Type': 'text/plain'});
-            res.end('Not Found');
-            break;
-    }    
-}).listen(process.env.PORT || 3000);
+'use strict'
+import express from 'express';
+import routes from './routes.js';
 
+const app = express();
+app.set('port', process.env.PORT || 3000);
+app.use(express.static("public")); // set location for static files
+app.use(express.urlencoded()); //Parse URL-encoded bodies
+app.set('view engine', 'ejs');
+
+const app_routes = routes(app); // passes ‘app’ instance to the routes module
+
+app.listen(app.get('port'), () => {
+    console.log('Express started'); 
+});
 
 console.log('Server running at http://127.0.0.1:3000/');
-
 

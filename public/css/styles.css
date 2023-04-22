@@ -79,7 +79,6 @@ h2 {
 /* Deatils Page*/
 .flex-container.details {
     justify-content: space-evenly;
-    border: 1px solid black;
     padding: 3rem;
 }
 
@@ -119,6 +118,20 @@ ul.details {
 .home ul li {
     padding: 2.6rem;
     color: #102D45;
+}
+
+/* Error page */
+h1.error {
+    margin: 40% 20%;
+}
+
+a.error  {
+    position: absolute;
+    top: 1%;
+    left: 4%;
+    font-family: 'Dongle', sans-serif;
+    font-style: italic;
+    font-size: 2.2rem;
 }
 
 /* Footer */

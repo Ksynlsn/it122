@@ -1,32 +1,32 @@
 <%- include('../partials/header'); %>
 <main>
- <h1 class="center">Thank you for asking about <%= name.replace(/^[a-z]/, (match) => match.toUpperCase()) %>&nbsp;!</h1>
+ <h1 class="center">Thank you for asking about <%= cat.name.replace(/^[a-z]/, (match) => match.toUpperCase()) %>&nbsp;!</h1>
 <div class="flex-container details">
 
- <% if (result) { %>
+ <% if (cat) { %>
   <ul class="details">
-    <li>Name: <%= name.replace(/^[a-z]/, (match) => match.toUpperCase()) %> </li>
-    <li>Breed: <%= result.breed %> </li>
-    <li>Sex: <%= result.sex %> </li>
-    <li>Temperment: <%= result.temperment %> </li>
-    <li>Age: <%= result.age %> </li>
-    <li>Favorite Toys: <%= result.favToys.join(", ") %> </li>
-    <li>Adoptable: <%= result.isAvailable %> </li>
+    <li>Name: <%= cat.name.replace(/^[a-z]/, (match) => match.toUpperCase()) %> </li>
+    <li>Breed: <%= cat.breed %> </li>
+    <li>Sex: <%= cat.sex %> </li>
+    <li>Temperment: <%= cat.temperment %> </li>
+    <li>Age: <%= cat.age %> </li>
+    <li>Favorite Toys: <%= cat.favToys.join(", ") %> </li>
+    <li>Adoptable: <%= cat.isAvailable %> </li>
   </ul>
 
   <div class="featured-image details">
-    <img id="catImage" src="<%= imagePath %>">
+    <img id="catImage" src="<%= path %>">
 
     <div id="info">
 
-      <% if(result.isAvailable == true ){ %>
-        <p class="center"><%=name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is available for adoption!</p>
+      <% if(cat.isAvailable == true ){ %>
+        <p class="center"><%=cat.name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is available for adoption!</p>
       <% } else{ %>  
-        <p class="center"><%=name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is not available for adoption</p>
+        <p class="center"><%=cat.name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is not available for adoption</p>
      <% } %>
     
     <% } else { %>
-      not found
+      <p>We're sorry, that cat isn't in our system</p>>
     <% } %>
       </div>
 

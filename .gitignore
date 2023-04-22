@@ -1,7 +1,8 @@
 # Added by me
 .DS_Store
 node_modules
-package-lock.json
+credentials.js
+test_db.js
 
 # Logs
 logs

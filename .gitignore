@@ -3,6 +3,7 @@
 node_modules
 credentials.js
 test_db.js
+api_routes.js
 
 # Logs
 logs

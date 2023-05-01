@@ -66,7 +66,19 @@ const getItem = (name) => {
     return cats.find((cat) => cat.name === name);
 }
 
-export { getAll, getItem }
+// display image
+const setImagePath = (name) => {
+  let imagePath = "/images/cat_image.jpeg"; 
+  const picture = cats.find((cat) => cat.name === name);
+    if (picture) {
+      imagePath = `/images/${name}.jpeg`; 
+    }
+    return imagePath;
+  }
+  
+
+
+export { getAll, getItem, setImagePath }
 
 
 

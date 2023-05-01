@@ -91,6 +91,10 @@ ul.details {
     display: inline-block;
 }
 
+.hidden { /* conditionally displays favToys only if array exists */
+    display: none;
+}
+
 .details li {
     padding-bottom: 1rem;
 }

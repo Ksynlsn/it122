@@ -6,12 +6,16 @@
  <% if (cat) { %>
   <ul class="details">
     <li>Name: <%= cat.name.replace(/^[a-z]/, (match) => match.toUpperCase()) %> </li>
-    <li>Breed: <%= cat.breed %> </li>
-    <li>Sex: <%= cat.sex %> </li>
-    <li>Temperment: <%= cat.temperment %> </li>
-    <li>Age: <%= cat.age %> </li>
-    <li>Favorite Toys: <%= cat.favToys.join(", ") %> </li>
-    <li>Adoptable: <%= cat.isAvailable %> </li>
+    <li>Breed: <%= cat.breed ? cat.breed : "unknown" %> </li>
+    <li>Sex: <%= cat.sex ? cat.sex : "unkown" %> </li>
+    <li>Temperment: <%= cat.temperment ? cat.temperment : "unknown" %> </li>
+    <li>Age: <%= cat.age ? cat.age : "unknown" %> </li>
+    <% if (cat.favToys && cat.favToys.length > 0) { %>
+      <li>Favorite Toys: <%= cat.favToys.join(", ") %></li>
+    <% } else { %>
+      <li class="hidden"> </li>
+    <% } %>
+    <li>Adoptable: <%= cat.isAvailable ? cat.isAvailable : "status unknown" %> </li>
   </ul>
 
   <div class="featured-image details">
@@ -19,10 +23,12 @@
 
     <div id="info">
 
-      <% if(cat.isAvailable == true ){ %>
+      <% if (cat.isAvailable == true ) { %>
         <p class="center"><%=cat.name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is available for adoption!</p>
-      <% } else{ %>  
+      <% } else if (cat.isAvailable == false ){ %>  
         <p class="center"><%=cat.name.replace(/^[a-z]/, (match) => match.toUpperCase())%> is not available for adoption</p>
+     <%  } else { %>
+      <p class="center">Please contact us for <%=cat.name.replace(/^[a-z]/, (match) => match.toUpperCase())%>'s adoption status</p>
      <% } %>
     
     <% } else { %>

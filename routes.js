@@ -2,10 +2,19 @@ import { setImagePath } from './data.js';
 import { Cat } from "./models/Cat.js";
 
 export default (app) => {
-    app.get('/', (req, res, next) => {
+
+    app.get('/', (req, res, next) => { // React Home Page
+      Cat.find({}).lean()
+      .then((cats) => {
+          res.render('./pages/home', {cats: JSON.stringify(cats)}); 
+      })
+      .catch(err => next(err));
+      });
+
+    app.get('/home', (req, res, next) => {
         Cat.find({}).lean()
         .then((cats) => {
-            res.render('./pages/home', { cats }); 
+            res.render('./pages/old_home', { cats }); 
         })
         .catch(err => next(err));
         });

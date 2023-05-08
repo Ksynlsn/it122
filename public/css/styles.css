@@ -87,7 +87,7 @@ h2 {
     max-width: 45%;
 }
 
-ul.details {
+.ul-wrapper.details {
     display: inline-block;
 }
 
@@ -109,17 +109,24 @@ ul.details {
     margin-top: 2%;
 }
 
+.home-link {
+    font-family: 'Dongle', sans-serif;
+    font-size: 2.2rem;
+    font-style: italic;
+}
+
 /* Home Page */
 .flex-container.home {
     justify-content: center;
 }
 
-.flex-container.home ul {
+.flex-container #cats { /* ul */
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
-.home ul li {
+#cats li {
     padding: 2.6rem;
     color: #102D45;
 }

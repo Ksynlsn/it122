@@ -4,7 +4,7 @@
 <div class="flex-container details">
 
  <% if (cat) { %>
-  <ul class="details">
+  <ul class="ul-wrapper details">
     <li>Name: <%= cat.name.replace(/^[a-z]/, (match) => match.toUpperCase()) %> </li>
     <li>Breed: <%= cat.breed ? cat.breed : "unknown" %> </li>
     <li>Sex: <%= cat.sex ? cat.sex : "unkown" %> </li>
@@ -39,7 +39,7 @@
   </div>
 
 </div> <!-- end container-->
-
+      <div class="center home-link"><a href="/">back to featured cats</a></div>
 </main>
   <%- include('../partials/footer'); %>
 </body>

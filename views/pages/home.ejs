@@ -8,7 +8,6 @@
         <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
         <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
         <!-- Don't use this in production: -->
-        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Inter:wght@700&family=Palanquin+Dark:wght@600&display=swap" rel="stylesheet">
     </head>
@@ -20,6 +19,7 @@
         }
         html {
           font-size: 16px;
+          background-color: #dee9e854;
         }
         header {
         padding: 2.2rem;
@@ -58,6 +58,12 @@
         font-size: 1.4rem;
         color:#6CABA6;
         }
+        h3 {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.6rem;
+        color: #102D45;
+        text-transform: capitalize;
+        }
         li {
         font-family: 'Dongle', sans-serif;
         list-style-type: none;
@@ -65,10 +71,15 @@
         }
         p {
         font-family: 'Dongle', sans-serif;
-        font-size: 2.2rem;
+        font-size: 1.8rem;
         }
-        h1, h2, p {
+        h1, h2, h3, p {
           text-align: center;
+        }
+        #adoptionStatus { /* h3 */
+        color:  #6CABA6;
+        margin-top: 1em;
+        text-transform: capitalize;
         }
         .flex-container.home {
         justify-content: center;
@@ -81,6 +92,53 @@
         #cats li {
         padding: 2.6rem;
         color: #102D45;
+        }
+        #catImage {
+        border-radius: 24px;
+        border: 3.5px solid #6CABA6;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display:block;
+        }
+        .container-details {
+        overflow: hidden;
+        margin: 2em 3em;
+        padding: 2%;
+        border: 3.5px solid #6CABA6;
+        border-radius: 24px;
+        position: relative;
+        }
+        .featured-image {
+        max-width: 58%;
+        float: right;
+        margin: 2em;
+        }
+        .form {
+        width: 30%;
+        float: left;
+        }
+        input {
+        display: block;
+        margin: .25em .50em .25em;
+        padding: 4px;
+        border-radius: 24px;
+        }
+        label {
+        font-family: 'Dongle', sans-serif;
+        font-size: 1.8rem;
+        }
+        button.reset {
+        background-color: #6CABA6;
+        color: white;
+        letter-spacing: 1.3px;
+        width: 90px;
+        line-height: 24px;
+        opacity: 1;
+        display: block;
+        margin: 0.5em auto 1.5em;
+        padding: 8px;
+        border-radius: 25px;
         }
         footer {
         width: 100%;
@@ -100,8 +158,17 @@
 <body>
   <div id="root" className="wrapper"> <!-- wrapper -->
 
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    let cats = <%- cats %>;
+    
+  let cats = <%- cats %>;
+
+  const Greeting = (props) => {
+        if (props.name) {
+          return <h2>Hello, {props.name}!!!</h2>;
+        }
+        return <h2>Hello, stranger!</h2>;
+    }
 
     const Header = () => (
       <header>
@@ -136,14 +203,13 @@
       </div>
     )
 
-    const Main = () => (
-      <main>
-       <div className="flex-container home">
-         <CatList /> 
-       </div>
-      </main>
+    const HeadingTwoDetails = ({ message }) => (
+      
+      <div>
+        <h2 id="detailsH2">{message}</h2>
+      </div>
     )
-    
+
     const Footer = () => (
         <footer>
           <div className="footer-top"></div>
@@ -151,61 +217,117 @@
         </footer>
     )
 
-    // const CatList = (props) => {
-        
-    //     const myCats = cats.map((cat) => 
-    //       <li 
-    //         style={{ textTransform: 'capitalize'}} 
-    //         key={cat._id}
-    //       >
-    //         <a href={`details/${cat.name}`}>{cat.name}</a>
-    //       </li>);
-    //       return (
-    //         <div className="ul-wrapper home">
-    //           <ul className="flex-container" id="cats">
-    //              {myCats}
-    //           </ul>
-    //         </div>)
-    // }
+    const Image = (props) => {
+      return (
+        <div className="featured-image">
+                <img id="catImage" src={props.image} />
+        </div>
+      );
+    }
 
-    const CatList = (props) => {
+    const HeadingThree = ({ message }) => {
+        return <div>
+                  <h3 id="adoptionStatus">{message}</h3>
+                </div>
+    };
+  
+
+    const Cats = (props) => {
         
-        const myCats = cats.map((cat) => 
-          <li 
-            style={{ textTransform: 'capitalize'}} 
-            key={cat._id}
-          >
-            <a href={`details/${cat.name}`}>{cat.name}</a>
+        const listItems = props.cats.map((item) => 
+          <li onClick={props.onClick} key={item['name']} style={{ textTransform: 'capitalize'}}>
+            {item['name']}
           </li>);
           return (
-            <div className="ul-wrapper home">
-              <ul className="flex-container" id="cats">
-                 {myCats}
-              </ul>
+            <div className="flex-container home">
+              <div className="ul-wrapper home">
+                <ul className="flex-container" id="cats">
+                  {listItems}
+                </ul>
+              </div>
             </div>)
     }
 
-    const Greeting = (props) => {
-        if (props.name) {
-          return <h2>Hello, {props.name}!!!</h2>;
-        }
-        return <h2>Hello, stranger!</h2>;
+    const CatDetail = (props) => {
+      return (
+        <div className="form">
+          <h3>Cat Details</h3>
+          <form id="myForm">
+          <label>Name:<input type="text" name="name" value={props.cat.name || ""} style={{ textTransform: 'capitalize'}} onChange={props.onChange} /></label>
+          <label>Age:<input type="number" name="age" value={props.cat.age || ""} onChange={props.onChange} /> </label>
+          <label>Sex:<input type="text" name="sex" value={props.cat.sex || ""} onChange={props.onChange} /> </label>
+          <label>Breed:<input type="text" name="breed" value={props.cat.breed || ""} onChange={props.onChange} /> </label>
+          <label>Temperment:<input type="text" name="temperment" value={props.cat.temperment || ""} onChange={props.onChange} /> </label>
+          <label>Fav Toys:<input type="text" name="favToys" value={props.cat.favToys ? props.cat.favToys.join(', ') : ''} onChange={props.onChange} /> </label>
+          <label>Available:<input type="text" name="isAvailable" value={props.cat.isAvailable !=null ? props.cat.isAvailable.toString() : ""} onChange={props.onChange} /> </label>
+          </form>
+        </div>
+      )
+    }
+
+    const ResetButton = (props) => {
+      return <button id="myForm" className="reset" onClick={props.onClick} type="button">reset</button>
     }
 
     const App = (props) => {
-        console.log(props);
+      const [items, setItems] = React.useState(cats);
+      const [currentItem, setCurrentItem] = React.useState({});
+
+        const selectItem = (event) => {
+          console.log(event.target);
+
+          const found = items.find((item) => { // function will run when list item is clicked
+            return item.name === event.target.innerHTML;
+          });
+          setCurrentItem(found);
+        }
+      
+    const resetForm = () => {
+        setCurrentItem({});
+    }
+
+      // list click event handler
+      const handleChange = (event) => {
+        console.log(event.target)
+        let newItem = { ...currentItem };
+        newItem[event.target.name] = event.target.value;
+        // update currentItem state
+        setCurrentItem(newItem);
+        // update list state
+        items.find((item, index) => {
+          if (item.name == newItem.name) {
+            items[index] = newItem;
+            setItems(items);
+          }
+        })
+      }
+
+      const setImagePath = (name) => {
+        let imagePath = "/images/cat_image.jpeg";
+        const catIndex = cats.findIndex((cat) => cat.name === name);
+          if (catIndex >= 0 && catIndex <= 6) {
+              imagePath = `/images/${name}.jpeg`;
+              }
+          return imagePath;
+        };
+
         return (
-        <div className="wrapper">
-          <Header />
-            
-              <Hero heroImage="/images/cat_hero.jpeg" altText="a slim, white cat playing with string"/>
+          <div>
+            <Header />
+              <Hero heroImage="/images/cat_hero.jpeg" altText="a slim, white cat playing with string" />
               <HeadingOne message="Welcome!" />
               <HeadingTwo message="Meet Our Featured Cats!" />
-              <Main />
-       
-          <Footer />
+              <Cats cats={items} onClick={selectItem} />
+              <HeadingTwoDetails message={currentItem && currentItem.name ? `Thank you for asking about ${currentItem.name}!` : 'Select a cat to learn more about them'} />
+              <HeadingThree message={currentItem.name && currentItem.isAvailable == true ? ` ${currentItem.name} is available for adoption!` : currentItem.name && currentItem.isAvailable == false ? `${currentItem.name} is not available for adoption!` : currentItem.name && currentItem.isAvailable == null ? `Please contact us for ${currentItem.name}'s adoption status` : ''} />
+              <div className="container-details">
+              <CatDetail cat={currentItem} onChange={handleChange}/>
+              <Image image={setImagePath(currentItem.name)}/>
+              </div>
+              <ResetButton onClick={resetForm}/>
+            <Footer />
 
-        </div>
+          </div>
         );
     }
 

@@ -4,6 +4,8 @@ node_modules
 credentials.js
 test_db.js
 api_routes.js
+working_home.ejs
+working_home2.ejs
 
 # Logs
 logs

@@ -11,6 +11,14 @@ export default (app) => {
       .catch(err => next(err));
       });
 
+      app.get('/test', (req, res, next) => { // React Home Page
+        Cat.find({}).lean()
+        .then((cats) => {
+            res.render('./pages/working_home', {cats: JSON.stringify(cats)}); 
+        })
+        .catch(err => next(err));
+        });
+
     app.get('/home', (req, res, next) => {
         Cat.find({}).lean()
         .then((cats) => {
@@ -72,14 +80,15 @@ export default (app) => {
    // creates new record or updates existing record if name exists in db
    app.post('/api/add/', (req, res, next) => {
           Cat.updateOne(
-            {name: req.body.name},
+            { name: req.body.name},
             { $set: 
             { age: req.body.age,
               breed: req.body.breed,
               sex: req.body.sex,
               favToys: req.body.favToys,
               isAvailable: req.body.isAvailable,
-              temperment: req.body.temperment
+              temperment: req.body.temperment,
+              hasImage: req.body.hasImage
             },
              }, 
              {upsert: true}
@@ -97,15 +106,15 @@ export default (app) => {
          })
  
   // Delete item by name
-  app.get('/api/delete/', (req, res) => {
-          Cat.deleteOne({name: req.body.name})
+  app.get('/api/delete/:name', (req, res) => {
+          Cat.deleteOne({ name: req.params.name })
             .then((result) => {
               if (result.deletedCount > 0) {
                 console.log(result.deletedCount);
-                res.status(200).json({ deletedCount: result.deletedCount, message: `Cat ${req.body.name} has been deleted`});
+                res.status(200).json({ deletedCount: result.deletedCount, message: `Cat ${req.params.name} has been deleted`});
             } else if (result.deletedCount === 0) {
                 console.log(result.deletedCount);
-                res.status(404).json({ deletedCount: result.deletedCount, message: `This cat is not in our databse. No records have been deleted`});
+                res.status(404).json({ deletedCount: result.deletedCount, message: `This cat ${req.params.name} is not in our databse. No records have been deleted`});
             } else {
                 res.status(500).json({message: "Database error"});
               }
@@ -115,8 +124,6 @@ export default (app) => {
             });
         });
 
-
-        
     app.get('/about', (req,res) => {
        res.type('text/plain');
        res.send('About page');

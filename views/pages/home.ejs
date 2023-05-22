@@ -39,7 +39,7 @@
         }
         .wrapper { 
         max-width: 1500px;
-        min-width: 520px;
+        min-width: 745px;
         display: flex;
         flex-direction: column;
         min-height: 100%;
@@ -47,22 +47,26 @@
         .flex-container {
           display: flex;
         }
+        h1, h2, h3 {
+          font-family: 'Inter', sans-serif;
+          text-transform: capitalize;
+          padding: 1rem;
+        }
         h1 {
-        font-family: 'Inter', sans-serif;
         font-size: 1.8rem;
         color: #76AFDE;
-        padding: 1rem;
         }
-        h2 {
-        font-family: 'Inter', sans-serif;
+        h2, #adoptionStatus {
         font-size: 1.4rem;
-        color:#6CABA6;
+        color: #6CABA6;
+        }
+        #detailsH2 {
+          font-size: 1.6rem;
+          color: #76AFDE;
         }
         h3 {
-        font-family: 'Inter', sans-serif;
         font-size: 1.6rem;
         color: #102D45;
-        text-transform: capitalize;
         }
         li {
         font-family: 'Dongle', sans-serif;
@@ -75,11 +79,6 @@
         }
         h1, h2, h3, p {
           text-align: center;
-        }
-        #adoptionStatus { /* h3 */
-        color:  #6CABA6;
-        margin-top: 1em;
-        text-transform: capitalize;
         }
         .flex-container.home {
         justify-content: center;
@@ -128,22 +127,26 @@
         font-family: 'Dongle', sans-serif;
         font-size: 1.8rem;
         }
-        button.reset {
+        .buttons {
+          margin: 0 auto;
+        }
+        button {
         background-color: #6CABA6;
         color: white;
         letter-spacing: 1.3px;
         width: 90px;
         line-height: 24px;
         opacity: 1;
-        display: block;
-        margin: 0.5em auto 1.5em;
+        margin: 0 1em;
         padding: 8px;
         border-radius: 25px;
+        display: inline-block;
         }
         footer {
         width: 100%;
         min-height: 300px;
         background-color: #102D45;
+        margin-top: 2em;
         }
         .footer-top {
         background: #B5A4A0;
@@ -153,6 +156,12 @@
         footer p {
         color: #B5A4A0;
         }
+        @media (max-width: 700px) {
+        .container-details { display: flex; flex-direction: column; }
+        .form { float: none; width: 100%; }
+        .featured-image { float: none; margin: 1.5em auto; max-width: 100%;}
+        input { width: 100%; }
+        }   
       </style>
 
 <body>
@@ -160,8 +169,6 @@
 
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    
-  let cats = <%- cats %>;
 
   const Greeting = (props) => {
         if (props.name) {
@@ -197,16 +204,9 @@
       </div>
     )
 
-     const HeadingTwo = ({ message }) => (
+     const HeadingTwo = ({ message, id }) => (
       <div>
-        <h2>{message}</h2>
-      </div>
-    )
-
-    const HeadingTwoDetails = ({ message }) => (
-      
-      <div>
-        <h2 id="detailsH2">{message}</h2>
+        <h2 id={id}>{message}</h2>
       </div>
     )
 
@@ -225,9 +225,9 @@
       );
     }
 
-    const HeadingThree = ({ message }) => {
+    const HeadingThree = ({ message, id }) => {
         return <div>
-                  <h3 id="adoptionStatus">{message}</h3>
+                  <h3 id={id}>{message}</h3>
                 </div>
     };
   
@@ -257,8 +257,8 @@
           <label>Age:<input type="number" name="age" value={props.cat.age || ""} onChange={props.onChange} /> </label>
           <label>Sex:<input type="text" name="sex" value={props.cat.sex || ""} onChange={props.onChange} /> </label>
           <label>Breed:<input type="text" name="breed" value={props.cat.breed || ""} onChange={props.onChange} /> </label>
-          <label>Temperment:<input type="text" name="temperment" value={props.cat.temperment || ""} onChange={props.onChange} /> </label>
-          <label>Fav Toys:<input type="text" name="favToys" value={props.cat.favToys ? props.cat.favToys.join(', ') : ''} onChange={props.onChange} /> </label>
+          <label>Temperment:<input type="text" name="temperment" value={props.cat.temperment !=null ? props.cat.temperment : ""} onChange={props.onChange} /> </label>
+          <label id="favToys">Fav Toys:<input type="text" name="favToys" value={props.cat.favToys ? props.cat.favToys : ""} onChange={props.onChange} /> </label>
           <label>Available:<input type="text" name="isAvailable" value={props.cat.isAvailable !=null ? props.cat.isAvailable.toString() : ""} onChange={props.onChange} /> </label>
           </form>
         </div>
@@ -269,9 +269,31 @@
       return <button id="myForm" className="reset" onClick={props.onClick} type="button">reset</button>
     }
 
+    const SaveItemButton = (props) => {
+      return <button className="save" onClick={props.onClick} type="button">save</button>
+    }
+
+    const DeleteItemButton = (props) => {
+      return <button className="delete" onClick={props.onClick} type="button">delete</button>
+    }
+
     const App = (props) => {
-      const [items, setItems] = React.useState(cats);
+      const [items, setItems] = React.useState([]);
       const [currentItem, setCurrentItem] = React.useState({});
+
+      React.useEffect(() => {
+        const fetchData = async () => {
+          fetch("/api/cats").then(res => res.json())
+          .then((data) => {
+            console.log('data:', data);
+            let catArray = data.cats;
+            setItems(catArray);
+            console.log('catArray:', catArray);
+          })
+        }
+        fetchData()
+      }, []);
+      
 
         const selectItem = (event) => {
           console.log(event.target);
@@ -282,11 +304,11 @@
           setCurrentItem(found);
         }
       
-    const resetForm = () => {
-        setCurrentItem({});
-    }
+        const resetForm = () => {
+            setCurrentItem({});
+        }
 
-      // list click event handler
+            // list click event handler
       const handleChange = (event) => {
         console.log(event.target)
         let newItem = { ...currentItem };
@@ -302,14 +324,51 @@
         })
       }
 
-      const setImagePath = (name) => {
-        let imagePath = "/images/cat_image.jpeg";
-        const catIndex = cats.findIndex((cat) => cat.name === name);
-          if (catIndex >= 0 && catIndex <= 6) {
-              imagePath = `/images/${name}.jpeg`;
-              }
-          return imagePath;
-        };
+        // Save Button
+        const saveItem = () => {
+          if (!currentItem.name) {
+            return;
+          }
+          fetch("/api/add", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(currentItem)
+          })
+          .then(res => res.json())
+          .then((data) => {
+            if (!currentItem._id) {
+              currentItem._id = data._id;
+              setCurrentItem(currentItem);
+              let updatedItems = [...items];
+              updatedItems.push(currentItem);
+              setItems(updatedItems);
+            }
+          })
+        }
+
+        // Delete Button
+        const deleteItem = () => {
+          fetch(`/api/delete/${currentItem.name}`)
+          .then(res => res.json())
+          .then((deleted) => {
+            console.log(deleted);
+            const newItems = items.filter((item) => {
+              return item._id !== currentItem._id;
+            });
+            setItems(newItems);
+            setCurrentItem({})
+          });
+        }
+
+      const setImagePath = () => {
+        let imagePath = "";
+        if (currentItem.hasImage == true) {
+          imagePath = `/images/${currentItem.name}.jpeg`; 
+      } else {
+          imagePath = "/images/cat_image.jpeg";
+      }
+        return imagePath;
+      }
 
         return (
           <div>
@@ -318,13 +377,19 @@
               <HeadingOne message="Welcome!" />
               <HeadingTwo message="Meet Our Featured Cats!" />
               <Cats cats={items} onClick={selectItem} />
-              <HeadingTwoDetails message={currentItem && currentItem.name ? `Thank you for asking about ${currentItem.name}!` : 'Select a cat to learn more about them'} />
-              <HeadingThree message={currentItem.name && currentItem.isAvailable == true ? ` ${currentItem.name} is available for adoption!` : currentItem.name && currentItem.isAvailable == false ? `${currentItem.name} is not available for adoption!` : currentItem.name && currentItem.isAvailable == null ? `Please contact us for ${currentItem.name}'s adoption status` : ''} />
+              <HeadingTwo id="detailsH2" message={currentItem && currentItem.name ? `Thank you for asking about ${currentItem.name}!` : 'Select a cat to learn more about them'} />
+              <HeadingThree id="adoptionStatus" message={currentItem.name && currentItem.isAvailable == true ? ` ${currentItem.name} is available for adoption!` : currentItem.name && currentItem.isAvailable == false ? `${currentItem.name} is not available for adoption!` : currentItem.name && currentItem.isAvailable == null ? `Please contact us for ${currentItem.name}'s adoption status` : ''} />
               <div className="container-details">
-              <CatDetail cat={currentItem} onChange={handleChange}/>
-              <Image image={setImagePath(currentItem.name)}/>
+              <CatDetail cat={currentItem} onChange={handleChange} />
+              <Image image={setImagePath(currentItem)}/>
               </div>
-              <ResetButton onClick={resetForm}/>
+              <div className="flex-container buttons">
+              <div className="buttons">
+              <ResetButton onClick={resetForm} />
+              <SaveItemButton onClick={saveItem} />
+              <DeleteItemButton onClick={deleteItem} />
+              </div>
+              </div>
             <Footer />
 
           </div>

@@ -20,6 +20,7 @@ const catSchema = new Schema({
  temperment: { type: String, required: false },
  favToys: { type: Array, required: false },
  isAvailable: { type: Boolean, required: true },
+ hasImage: { type: Boolean, required: false },
  },
  {
   versionKey: false
